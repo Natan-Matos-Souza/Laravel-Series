@@ -3,31 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\DB;
 use App\Models\Serie;
 
 class SeriesController extends Controller
 {
-
-    public function debug(Request $request)
-    {
-
-        $serie = new Serie();
-        $serie->name = "Natan";
-        dd($serie);
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
 
+        $flashMessage = $request->session()->get('message.success');
+
+        // $request->session()->remove('message.success');
+
         $series = Serie::query()->orderBy('name')->get();
 
         return view('series.index', [
-            'series' => $series
+            'series'         => $series,
+            "flashMessage"   => $flashMessage
         ]);
 
     }
@@ -45,13 +39,11 @@ class SeriesController extends Controller
      */
     public function store(Request $request)
     {
-        $serieName = $request->input('name');
-        
-        $serie = new Serie();
-        $serie->name = $serieName;
-        $serie->save();
+        Serie::create($request->all());
 
-        return redirect('/series');
+        $request->session()->flash('message.success', 'Série adicionada com sucesso!');
+
+        return to_route('series.index');
 
     }
 
@@ -82,8 +74,15 @@ class SeriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, Serie $series)
     {
-        //
+
+        
+        $series->delete();
+
+        $request->session()->flash('message.success', "Série '$series->name' removida com sucesso!");
+
+        return to_route('series.index');
+
     }
 }

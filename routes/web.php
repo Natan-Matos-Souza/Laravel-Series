@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SeriesController;
 
 
-Route::get('/series', [SeriesController::class, 'index']);
-Route::get('/series/adicionar', [SeriesController::class, 'create']);
-Route::post('/series/salvar', [SeriesController::class, 'store']);
+/**
+ * main app route
+ */
 
-// Route::get('/debug', [SeriesController::class, 'debug']);
+Route::resource('/series', SeriesController::class)
+->only(['index', 'create', 'store', 'destroy']);
