@@ -9,8 +9,17 @@
 </head>
 <body>
 
+    @if ($errors->any())
+
+        @foreach($errors->all() as $error)
+            <div class="alert alert-danger">{{ $error }}</div>
+        @endforeach
+
+    @endif
+
     <div class="container">
         {{ $slot }}
     </div>
+    <script src="{{ asset('js/removeFlashMessage.js') }}"></script>
 </body>
 </html>

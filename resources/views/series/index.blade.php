@@ -13,28 +13,21 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 {{ $serie->name }}
 
-                <form action="{{route('series.destroy', $serie->id)}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <input type="submit" value="X" class="btn btn-danger btn-sm">
-                </form>
+                <div class="options d-flex flex-row gp-10 align-items-center">
+
+
+                    <a href="{{ route('series.edit', $serie->id) }}">Editar</a>
+
+                    <form class="m-3" action="{{route('series.destroy', $serie->id)}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <input type="submit" value="X" class="btn btn-danger btn-sm w-4 h-4">
+                    </form>
+
+                    
+                </div>
 
             </li>
         @endforeach
     </ul>
-
-    <script>
-        const flashMessage = document.querySelector('.alert');
-
-        function removeFlashMessage(flashMessage)
-        {
-            setTimeout(() => {
-                flashMessage.style.display = 'none';
-            }, 2 * 1000);
-        }
-
-        if (flashMessage) removeFlashMessage(flashMessage);
-
-    </script>
-
 </x-layout>
