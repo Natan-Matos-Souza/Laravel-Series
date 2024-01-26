@@ -17,9 +17,9 @@ class Serie extends Model
         'name',
     ];
     
-    protected $with = [
-        'seasons'
-    ];
+    // protected $with = [
+    //     'seasons'
+    // ];
 
     public function seasons()
     { 

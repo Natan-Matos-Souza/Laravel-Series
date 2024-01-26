@@ -1,8 +1,10 @@
-const flashMessage = document.querySelector('.alert');
+const flashMessage = document.querySelectorAll('.alert');
 
 function removeFlashMessage(flashMessage)
 {
-    flashMessage.style.display = 'none';
+    flashMessage.forEach(e => {
+        e.style.display = 'none';
+    });
 }
 
 if (flashMessage)

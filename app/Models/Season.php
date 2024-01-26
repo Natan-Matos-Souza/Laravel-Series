@@ -10,6 +10,10 @@ class Season extends Model
     use HasFactory;
 
     protected $table = 'seasons';
+    protected $primaryKey = 'season_id';
+    protected $fillable = [
+        'number'
+    ];
     public function series()
     {
         return $this->belongsTo(Serie::class);
@@ -17,6 +21,18 @@ class Season extends Model
 
     public function episodes()
     {
-        return $this->hasMany(Episode::class);
+        return $this->hasMany(Episode::class, 'season_id');
     }
+
+    /**
+     * @return int
+     *
+     */
+    public function getWatchedEpisodes(): int
+    {
+        return $this->episodes
+            ->filter(fn ($episode) => $episode->watched)
+            ->count();
+    }
+
 }

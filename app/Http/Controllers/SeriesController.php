@@ -2,19 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Season;
+use App\Repositories\EloquentSeriesRepository;
+use App\Repositories\SeriesRepository;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use App\Models\Serie;
 use App\Http\Requests\SeriesRequestForm;
+use Illuminate\Support\Facades\Auth;
+use Mockery\Exception;
 
 class SeriesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('authenticator')
+            ->except('index');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-
         $flashMessage = $request->session()->get('message.success');
 
         $series = Serie::all();
@@ -37,12 +47,13 @@ class SeriesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SeriesRequestForm $request)
+    public function store(SeriesRequestForm $request, SeriesRepository $repository)
     {
-        Serie::create($request->all());
+
+        $serie = $repository->save($request);
 
         return to_route('series.index')
-        ->with('message.success', "Série '{$request->name}' adicionada com sucesso!");
+            ->with('message.success', "Série '{$request->name}' adicionada com sucesso!");
 
     }
 
@@ -82,12 +93,12 @@ class SeriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Serie $series)
+    public function destroy(Request $request, Serie $series, SeriesRepository $repository)
     {
-        $series->delete();
+        $repository->destroy($series);
 
         return to_route('series.index')
-        ->with('message.success', "Série '{$series->name}' removida com sucesso!");
+            ->with('message.success', "Série '{$series->name}' removida com sucesso!");
 
     }
 
@@ -95,12 +106,8 @@ class SeriesController extends Controller
      * debug controller
      */
 
-     public function debug(string $series)
+     public function debug(Serie $series)
      {
-        $serie = Serie::find([
-            'id'    => $series
-        ]);
-
-        dd($serie);
+        dd($series);
      }
 }

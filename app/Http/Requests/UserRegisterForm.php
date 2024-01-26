@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SeriesRequestForm extends FormRequest
+class UserRegisterForm extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,19 +22,18 @@ class SeriesRequestForm extends FormRequest
     public function rules(): array
     {
         return [
-            'name'              => ['required', 'min:3'],
-            'seasonsQuantity'   => ['required'],
-            'episodesQuantity'  => ['required']
+            'email'             => ['required', 'email'],
+            'password'          => ['required', 'confirmed']
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required'             => "O campo 'Nome da Série' é obrigatório!",
-            'name.min'                  => "O campo 'Nome da Série' deve conter, no mínimo, :min caracteres!",
-            'seasonsQuantity.required'  => "O campo 'Temporadas' é obrigatório!",
-            'episodes.required'         => "O campo 'Temporadas' é obrigatório!",
+            'email.email'                   => "Digite um e-mail válido!",
+            'email.required'                => "O campo 'email' é obrigatório!",
+            'password.required'             => "'O campo 'senha' é obrigatório!",
+            'password.confirmed'            => "As senhas precisam ser idênticas"
         ];
     }
 }
