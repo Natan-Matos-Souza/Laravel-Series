@@ -16,7 +16,11 @@ class Authenticator
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) return to_route('login');
+        $route = $request->route();
+
+        if (!Auth::check()) return to_route('login', [
+            'page' => $route->uri
+        ]);
         return $next($request);
     }
 }

@@ -5,14 +5,20 @@
     <form method="POST" action="{{ route('cadastro.store') }}">
 
         @csrf
+
         <div>
-            <label class="form-label mt-3 fs-3" for="useremail">Digite seu email:</label>
-            <input class="form-control p-3" name="email" id="useremail" type="text">
+            <label class="form-label mt-3 fs-3" for="name">Digite o seu nome:</label>
+            <input class="form-control p-3"  value="{{ old('name') }}" name="name" id="name" type="text">
         </div>
 
         <div>
-            <label class="form-label mt-3 fs-3" for="password">Digite sua senha:</label>
-            <input class="form-control p-3" name="password" id="password" type="password">
+            <label class="form-label mt-3 fs-3" for="useremail">Digite o seu email:</label>
+            <input class="form-control p-3" value="{{ old('email') }}" name="email" id="useremail" type="text">
+        </div>
+
+        <div>
+            <label class="form-label mt-3 fs-3" for="password">Digite a sua senha:</label>
+            <input class="form-control p-3"  value="{{ old('password') }}" name="password" id="password" type="password">
         </div>
 
         <div>

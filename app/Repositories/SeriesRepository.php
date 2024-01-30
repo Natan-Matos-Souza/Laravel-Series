@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 interface SeriesRepository
 {
-    public function save(SeriesRequestForm $request): Serie;
+    public function save(SeriesRequestForm $serie): Serie;
 
     public function destroy(Serie $series): Serie;
 }

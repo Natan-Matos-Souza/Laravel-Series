@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\EloquentSeriesRepository;
+use App\Http\Middleware\Authenticator;
+use App\Mail\SeriesCreated;
+use App\Events\SeriesCreated as SeriesCreatedEvent;
+use App\Models\User;
 use App\Repositories\SeriesRepository;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use App\Models\Serie;
 use App\Http\Requests\SeriesRequestForm;
-use Illuminate\Support\Facades\Auth;
-use Mockery\Exception;
+use Illuminate\Support\Facades\Mail;
 
 class SeriesController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('authenticator')
+        $this->middleware(Authenticator::class)
             ->except('index');
     }
 
@@ -25,6 +26,7 @@ class SeriesController extends Controller
      */
     public function index(Request $request)
     {
+
         $flashMessage = $request->session()->get('message.success');
 
         $series = Serie::all();
@@ -49,8 +51,12 @@ class SeriesController extends Controller
      */
     public function store(SeriesRequestForm $request, SeriesRepository $repository)
     {
-
+        
         $serie = $repository->save($request);
+
+        SeriesCreatedEvent::dispatch(
+            $serie
+        );
 
         return to_route('series.index')
             ->with('message.success', "Série '{$request->name}' adicionada com sucesso!");
@@ -80,8 +86,6 @@ class SeriesController extends Controller
      */
     public function update(SeriesRequestForm $request, Serie $series)
     {
-
-        // dd($series);
 
         $series->fill($request->all());
         $series->save();

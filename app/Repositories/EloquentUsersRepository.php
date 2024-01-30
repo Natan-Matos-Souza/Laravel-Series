@@ -6,12 +6,9 @@ use App\Models\User;
 
 class EloquentUsersRepository implements UsersRepository
 {
-    public function create(object $data): User
+    public function create(array $data): User
     {
-       $user = User::create([
-            'email'     => $data->email,
-            'password'  => $data->password
-        ]);
+       $user = User::create($data);
 
        return $user;
     }

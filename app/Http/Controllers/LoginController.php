@@ -15,7 +15,9 @@ class LoginController
 
     public function store(LoginRequestForm $request)
     {
-        if (!Auth::attempt($request->only(['email', 'password']))) return to_route('login')
+        $userCredentials = $request->only(['email', 'password']);
+
+        if (!Auth::attempt($userCredentials)) return to_route('login')
             ->withErrors('Usuário ou senha inválidos!');
 
         return to_route('series.index');

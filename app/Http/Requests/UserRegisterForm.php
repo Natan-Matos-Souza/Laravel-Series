@@ -23,7 +23,8 @@ class UserRegisterForm extends FormRequest
     {
         return [
             'email'             => ['required', 'email'],
-            'password'          => ['required', 'confirmed']
+            'password'          => ['required', 'confirmed'],
+            'name'              => ['required']
         ];
     }
 
@@ -32,6 +33,7 @@ class UserRegisterForm extends FormRequest
         return [
             'email.email'                   => "Digite um e-mail válido!",
             'email.required'                => "O campo 'email' é obrigatório!",
+            'name.required'                 => "O campo 'nome' é obrigatório!",
             'password.required'             => "'O campo 'senha' é obrigatório!",
             'password.confirmed'            => "As senhas precisam ser idênticas"
         ];

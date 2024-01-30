@@ -31,16 +31,17 @@ class UsersController extends Controller
     public function store(UserRegisterForm $request, UsersRepository $repository)
     {
 
-        if ($repository->exists($request->get('email'))) return to_route('login')
+        if ($repository->exists($request->get('email'))) return to_route('cadastro.index')
             ->withErrors('Email já cadastrado!');
 
         $password = $request->get('password');
 
         $password = password_hash($password, PASSWORD_BCRYPT);
 
-        $data = (object) [
+        $data = [
             'email'     => $request->get('email'),
-            'password'  => $password
+            'password'  => $password,
+            'name'      => $request->name
         ];
 
         $user = $repository->create($data);

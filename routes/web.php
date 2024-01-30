@@ -9,21 +9,26 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LogoutController;
 
 
+use App\Mail\SeriesCreated;
+
 /**
  * main app route
  */
 
+Route::middleware('authenticator')->group(function() {
+
+    Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])
+        ->name('seasons.index');
+
+    Route::get('/seasons/{seasons}/episodes', [EpisodesController::class, 'index'])
+        ->name('episodes.index');
+
+    Route::post('/seasons/{seasons}/episodes', [EpisodesController::class, 'update'])
+        ->name('episodes.store');
+
+});
+
 Route::resource('/series', SeriesController::class);
-
-Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])
-    ->name('seasons.index');
-
-Route::get('/seasons/{seasons}/episodes', [EpisodesController::class, 'index'])
-    ->name('episodes.index');
-
-Route::post('/seasons/{seasons}/episodes', [EpisodesController::class, 'update'])
-    ->name('episodes.store');
-
 
 Route::resource('/login', LoginController::class)
     ->name('index', 'login')
@@ -37,3 +42,7 @@ Route::resource('/cadastro', UsersController::class)
  */
 
 Route::get('/logout', [LogoutController::class, 'index']);
+
+/**
+ * Deubg route
+ */
