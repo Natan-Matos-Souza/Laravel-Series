@@ -5,6 +5,11 @@
     <form method="POST" action="{{ route('login.store') }}">
 
         @csrf
+        
+        @if ($redirect)
+            <input type="text" name="redirect" hidden value="{{ $redirect }}">
+        @endif
+
         <div>
             <label class="form-label mt-3 fs-3" for="useremail">Digite seu email:</label>
             <input class="form-control p-3" name="email" id="useremail" type="text">

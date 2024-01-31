@@ -14,7 +14,13 @@ class EloquentSeriesRepository implements SeriesRepository
     public function save(SeriesRequestForm $request): Serie
     {
         return DB::transaction(function() use($request) {
-            $series = Serie::create($request->all());
+
+            $cover = $request->file('image');
+
+            $series = Serie::create([
+                ...$request->only('name'),
+                'coverPath' => $request->coverPath
+            ]);
 
             $seasons = [];
 

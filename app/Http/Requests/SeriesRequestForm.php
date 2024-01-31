@@ -24,7 +24,8 @@ class SeriesRequestForm extends FormRequest
         return [
             'name'              => ['required', 'min:3'],
             'seasonsQuantity'   => ['required'],
-            'episodesQuantity'  => ['required']
+            'episodesQuantity'  => ['required'],
+            'image'         => ['image']
         ];
     }
 
@@ -35,6 +36,7 @@ class SeriesRequestForm extends FormRequest
             'name.min'                  => "O campo 'Nome da Série' deve conter, no mínimo, :min caracteres!",
             'seasonsQuantity.required'  => "O campo 'Temporadas' é obrigatório!",
             'episodes.required'         => "O campo 'Temporadas' é obrigatório!",
+            'image.image'               => "Apenas arquivos jpg, jpeg, png, gif e webp são suportados!"
         ];
     }
 }

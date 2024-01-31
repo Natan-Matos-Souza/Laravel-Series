@@ -8,18 +8,23 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('login.index');
+
+        $redirect = $request->get('page');
+        return view('login.index', [
+            'redirect' => $redirect
+        ]);
     }
 
     public function store(LoginRequestForm $request)
     {
+
         $userCredentials = $request->only(['email', 'password']);
 
         if (!Auth::attempt($userCredentials)) return to_route('login')
             ->withErrors('Usuário ou senha inválidos!');
 
-        return to_route('series.index');
+        return $request->redirect ? redirect($request->redirect) : to_route('series.index');
     }
 }

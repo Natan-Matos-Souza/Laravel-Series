@@ -1,0 +1,1 @@
+<h1>{{ storage_path('covers/file.jpg') }}</h1>

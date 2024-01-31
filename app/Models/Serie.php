@@ -15,6 +15,7 @@ class Serie extends Model
 
     protected $fillable = [
         'name',
+        'coverPath'
     ];
     
     // protected $with = [

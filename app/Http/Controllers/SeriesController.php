@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SeriesDestroyed as SeriesDestroyedEvent;
 use App\Http\Middleware\Authenticator;
 use App\Mail\SeriesCreated;
 use App\Events\SeriesCreated as SeriesCreatedEvent;
@@ -51,7 +52,13 @@ class SeriesController extends Controller
      */
     public function store(SeriesRequestForm $request, SeriesRepository $repository)
     {
-        
+
+        $coverPath = $request->file('image')->store('covers', 'public');
+
+        $request->coverPath = $coverPath;
+
+        // dd([...$request->only(['name']), 'coverPath' => $request->coverPath]);
+
         $serie = $repository->save($request);
 
         SeriesCreatedEvent::dispatch(
@@ -99,7 +106,11 @@ class SeriesController extends Controller
      */
     public function destroy(Request $request, Serie $series, SeriesRepository $repository)
     {
-        $repository->destroy($series);
+        $destroyedSerie = $repository->destroy($series);
+        
+        SeriesDestroyedEvent::dispatch(
+            $destroyedSerie
+        );
 
         return to_route('series.index')
             ->with('message.success', "Série '{$series->name}' removida com sucesso!");

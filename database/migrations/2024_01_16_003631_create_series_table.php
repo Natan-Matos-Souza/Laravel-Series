@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('series', function (Blueprint $table) {
             $table->id();
             $table->string('name', 128);
+            $table->string('coverPath')->nullable(true);
         });
     }
 
