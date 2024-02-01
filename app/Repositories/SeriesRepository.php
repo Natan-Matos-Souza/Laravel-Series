@@ -11,4 +11,6 @@ interface SeriesRepository
     public function save(SeriesRequestForm $serie): Serie;
 
     public function destroy(Serie $series): Serie;
+
+    public function edit(Serie $series, $request): void;
 }

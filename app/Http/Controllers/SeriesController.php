@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\SeriesDestroyed as SeriesDestroyedEvent;
 use App\Http\Middleware\Authenticator;
+use App\Jobs\RemoveSeriesCoverJob;
 use App\Mail\SeriesCreated;
 use App\Events\SeriesCreated as SeriesCreatedEvent;
 use App\Models\User;
@@ -91,11 +92,17 @@ class SeriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SeriesRequestForm $request, Serie $series)
-    {
+    public function update(SeriesRequestForm $request, Serie $series, SeriesRepository $repository)
+    {        
 
-        $series->fill($request->all());
-        $series->save();
+        // $series->fill($request->all());
+        // $series->save();
+        $cover = $request->file('image');
+        $cover  = $cover ? $cover->store('covers', 'public') : null;
+        
+        $request->coverPath = $cover;
+
+        $repository->edit($series, $request);
 
         return to_route('series.index')
         ->with('message.success', "Série '{$series->name}' adicionada sucesso!");
@@ -108,7 +115,11 @@ class SeriesController extends Controller
     {
         $destroyedSerie = $repository->destroy($series);
         
-        SeriesDestroyedEvent::dispatch(
+        // SeriesDestroyedEvent::dispatch(
+        //     $destroyedSerie
+        // );
+
+        RemoveSeriesCoverJob::dispatch(
             $destroyedSerie
         );
 
