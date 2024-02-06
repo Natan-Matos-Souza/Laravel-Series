@@ -19,7 +19,7 @@ class NofityUsersAboutSeriesCreated
     {
         //
     }
-
+    
     /**
      * Handle the event.
      */
@@ -30,9 +30,7 @@ class NofityUsersAboutSeriesCreated
 
         foreach($users as $user)
         {
-            $time = now()->addMinutes(1);
-
-            Mail::to($user)->later($time, new SeriesCreated(
+            Mail::to($user)->queue(new SeriesCreated(
                 $user,
                 $event->serie
             ));

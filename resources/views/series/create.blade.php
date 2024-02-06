@@ -30,6 +30,6 @@
             <div>
               <button type="submit" class="btn btn-success">Enviar</button>
             </div>
-          </form>
+        </form>
     </div>
 </x-layout>

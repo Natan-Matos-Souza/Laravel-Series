@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SeriesDestroyed as SeriesDestroyedEvent;
+// use App\Events\SeriesDestroyed as SeriesDestroyedEvent;
 use App\Http\Middleware\Authenticator;
+use App\Jobs\DeleteUselessCoverJob;
 use App\Jobs\RemoveSeriesCoverJob;
-use App\Mail\SeriesCreated;
 use App\Events\SeriesCreated as SeriesCreatedEvent;
-use App\Models\User;
 use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
 use App\Models\Serie;
 use App\Http\Requests\SeriesRequestForm;
-use Illuminate\Support\Facades\Mail;
 
 class SeriesController extends Controller
 {
@@ -54,11 +52,11 @@ class SeriesController extends Controller
     public function store(SeriesRequestForm $request, SeriesRepository $repository)
     {
 
-        $coverPath = $request->file('image')->store('covers', 'public');
+        $coverPath = $request->file('image');
+
+        $coverPath = $coverPath?->store('covers', 'public'); //Se $coverPath não for nulo, executa o método store();
 
         $request->coverPath = $coverPath;
-
-        // dd([...$request->only(['name']), 'coverPath' => $request->coverPath]);
 
         $serie = $repository->save($request);
 
@@ -93,15 +91,13 @@ class SeriesController extends Controller
      * Update the specified resource in storage.
      */
     public function update(SeriesRequestForm $request, Serie $series, SeriesRepository $repository)
-    {        
+    {
 
-        // $series->fill($request->all());
-        // $series->save();
+
         $cover = $request->file('image');
         $cover  = $cover ? $cover->store('covers', 'public') : null;
-        
+        if ($cover) DeleteUselessCoverJob::dispatch($series);
         $request->coverPath = $cover;
-
         $repository->edit($series, $request);
 
         return to_route('series.index')
@@ -114,7 +110,7 @@ class SeriesController extends Controller
     public function destroy(Request $request, Serie $series, SeriesRepository $repository)
     {
         $destroyedSerie = $repository->destroy($series);
-        
+
         // SeriesDestroyedEvent::dispatch(
         //     $destroyedSerie
         // );

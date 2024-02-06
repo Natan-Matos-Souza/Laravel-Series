@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+    app_database:
+        image: mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=natan
+        ports:
+            - 2000:3306
+        container_name: laravel_database

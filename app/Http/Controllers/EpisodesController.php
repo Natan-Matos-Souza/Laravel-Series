@@ -15,7 +15,6 @@ class EpisodesController
             "seasons"   => $seasons
         ]);
     }
-
     public function update(Request $request, Season $seasons)
     {
         $watchedEpisode = $request->get('episodes');

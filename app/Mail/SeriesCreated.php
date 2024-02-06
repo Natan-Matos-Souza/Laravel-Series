@@ -23,7 +23,7 @@ class SeriesCreated extends Mailable
         public Serie $serie
     )
     {
-        //
+        $this->serie->url = route('series.index', $serie->id);
     }
 
     /**

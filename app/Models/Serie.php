@@ -17,13 +17,13 @@ class Serie extends Model
         'name',
         'coverPath'
     ];
-    
+
     // protected $with = [
     //     'seasons'
     // ];
 
     public function seasons()
-    { 
+    {
         return $this->hasMany(Season::class, 'series_id');
     }
 

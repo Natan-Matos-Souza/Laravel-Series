@@ -38,7 +38,8 @@ Route::resource('/cadastro', UsersController::class)
  * logout route
  */
 
-Route::get('/logout', [LogoutController::class, 'index']);
+Route::get('/logout', [LogoutController::class, 'index'])
+    ->name('logout');
 
 /**
  * Deubg route

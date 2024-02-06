@@ -14,8 +14,11 @@
     <ul class="list-group">
         @foreach($series as $serie)
             <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                <img src="{{ asset("/storage/{$serie->coverPath}") }}" style="height: 80px; width: 80px" alt="">
+                @if ($serie->coverPath)
+                    <img src="{{ asset("/storage/{$serie->coverPath}") }}" style="height: 80px; width: 80px" alt="">
+                @else
+                    <img src="https://img.freepik.com/premium-photo/popcorn-minimalist-simple_948103-869.jpg" style="height: 80px; width: 80px" alt="">
+                @endif
 
                 {{ $serie->name }}
 
@@ -39,6 +42,3 @@
         @endforeach
     </ul>
 </x-layout>
-{{-- @foreach ($series as $serie)
-    <h1>{{ $serie->coverPath }}</h1>
-@endforeach --}}

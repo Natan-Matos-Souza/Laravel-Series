@@ -10,9 +10,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 
-class RemoveSeriesCoverJob
+
+class DeleteUselessCoverJob //implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -23,7 +23,7 @@ class RemoveSeriesCoverJob
         public Serie $series
     )
     {
-        
+        //
     }
 
     /**
@@ -31,13 +31,6 @@ class RemoveSeriesCoverJob
      */
     public function handle(): void
     {
-        if ($this->series->coverPath)
-        {
-            $path = storage_path("app/public/{$this->series->coverPath}");
-
-            Log::info("Tentando apagar arquivo: \"{$path}\"");
-            Storage::disk('public')->delete($this->series->coverPath);
-        }
-        
+        Storage::disk('public')->delete($this->series->coverPath);
     }
 }

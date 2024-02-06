@@ -1,4 +1,4 @@
-<x-layout title="Register page">
+<x-form title="Register page">
     <div class="text-bg-primary rounded mt-4">
         <h1 class="p-3">Cadastro 🪪</h1>
     </div>
@@ -32,4 +32,4 @@
     <div class="mt-3">
         <span class="fs-5">Já possui uma conta? <a href="{{ route('login')  }}">Faça login</a></span>
     </div>
-</x-layout>
+</x-form>

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class EloquentSeriesRepository implements SeriesRepository
 {
-    public function save(SeriesRequestForm $request): Serie
+    public function save(SeriesRequestForm|Request $request): Serie
     {
         return DB::transaction(function() use($request) {
 
@@ -81,8 +81,8 @@ class EloquentSeriesRepository implements SeriesRepository
             for ($i = 1; $i <= $request->seasonsQuantity; $i++)
             {
                 array_push($seasons, [
-                    'series_id'       => $series->id,
-                    'number' => $i
+                    'series_id'  => $series->id,
+                    'number'     => $i
                 ]);
             }
 
@@ -98,7 +98,7 @@ class EloquentSeriesRepository implements SeriesRepository
                 for ($i = 1; $i <= $request->episodesQuantity; $i++)
                 {
                     array_push($episodes, [
-                        'season_id'        => $season->season_id,
+                        'season_id'         => $season->season_id,
                         'episode_number'    => $i
                     ]);
                 }
