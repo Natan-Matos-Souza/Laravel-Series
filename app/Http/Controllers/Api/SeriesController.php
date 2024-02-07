@@ -21,10 +21,12 @@ class SeriesController
 
     public function show(Request $request, int $id) // Serie $series)
     {
-        $serie = Serie::query()
-            ->with('seasons.episodes')
-            ->where('id', '=', $id)
-            ->first();
+//        $serie = Serie::findOrFail($id)
+//            ->with('seasons.episodes')
+//            ->where('id', '=', $id)
+//            ->first();
+
+        dd(Serie::findOrFail($id));
 
         return response()->json($serie);
     }
@@ -42,3 +44,5 @@ class SeriesController
         $serie->delete();
     }
 }
+
+

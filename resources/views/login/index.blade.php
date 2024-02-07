@@ -5,7 +5,7 @@
     <form method="POST" action="{{ route('login.store') }}">
 
         @csrf
-        
+
         @if ($redirect)
             <input type="text" name="redirect" hidden value="{{ $redirect }}">
         @endif
