@@ -6,6 +6,6 @@ COPY . .
 
 EXPOSE 8000
 
-RUN apt-get update && docker-php-ext-install pdo_mysql && php artisan migrate && php artisan storage:link
+RUN apt-get update && docker-php-ext-install pdo_mysql && php artisan storage:link
 
 ENTRYPOINT php artisan serve --host 0.0.0.0

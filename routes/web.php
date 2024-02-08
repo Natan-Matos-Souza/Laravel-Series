@@ -20,7 +20,7 @@ Route::middleware('authenticator')->group(function() {
     Route::get('/seasons/{seasons}/episodes', [EpisodesController::class, 'index'])
         ->name('episodes.index');
 
-    Route::post('/seasons/{seasons}/episodes', [EpisodesController::class, 'update'])
+    Route::put('/seasons/{seasons}/episodes', [EpisodesController::class, 'update'])
         ->name('episodes.store');
 
 });

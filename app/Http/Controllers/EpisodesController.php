@@ -20,7 +20,13 @@ class EpisodesController
         $watchedEpisode = $request->get('episodes');
 
         $seasons->episodes->each(function(Episode $episode) use ($watchedEpisode) {
-            $episode->watched = in_array($episode->episode_id, $watchedEpisode);
+
+            if (is_array($watchedEpisode)) {
+                $episode->watched = in_array($episode->episode_id, $watchedEpisode);
+            } else {
+                $episode->watched = false;
+            }
+
         });
 
         $seasons->push();

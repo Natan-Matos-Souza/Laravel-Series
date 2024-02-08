@@ -5,6 +5,7 @@
     <ul class="list-group">
         <form method="POST" action>
             @csrf
+            @method("PUT")
             @foreach($episodes as $episode)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     Episódio: {{ $episode->episode_number }}
