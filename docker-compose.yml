@@ -1,17 +1,15 @@
 version: "3.9"
 services:
-    scripts:
-        build: ./docker/laravel_scripts/
-        volumes:
-            - .:/app
-        container_name: script
-        command:
-            - php artisan migrate --force
-        networks:
-            - app-network
-        depends_on:
-            - app_database
-            - laravel_app
+#    scripts:
+#        build: ./docker/laravel_scripts/
+#        volumes:
+#            - .:/app
+#        container_name: script
+#        networks:
+#            - app-network
+#        depends_on:
+#            - app_database
+#            - laravel_app
 
     app_database:
         image: mysql

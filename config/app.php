@@ -33,7 +33,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Debug Mode
+    | Application DebugController Mode
     |--------------------------------------------------------------------------
     |
     | When your application is in debug mode, detailed error messages with
@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,7 +169,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\SeriesServiceProvider::class,
-        \App\Providers\UsersServiceProvider::class
+        \App\Providers\EpisodesServiceProvider::class,
+        \App\Providers\UsersServiceProvider::class,
+        \App\Providers\UsersApiServiceProvider::class
     ])->toArray(),
 
     /*

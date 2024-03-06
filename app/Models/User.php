@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 use Ramsey\Uuid\Uuid;
 
 class User extends Authenticatable
 {
-    use HasUuids;
+    use HasUuids, HasApiTokens;
     protected $table = 'users';
 
     protected $primaryKey = 'user_id';
@@ -19,6 +18,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password'
+    ];
+
+    protected $casts = [
+        'password' => 'hashed'
     ];
 
     public $timestamps = false;

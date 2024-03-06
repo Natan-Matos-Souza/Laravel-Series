@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-// use App\Events\SeriesDestroyed as SeriesDestroyedEvent;
 use App\Http\Middleware\Authenticator;
 use App\Jobs\DeleteUselessCoverJob;
 use App\Jobs\RemoveSeriesCoverJob;
@@ -29,7 +28,7 @@ class SeriesController extends Controller
 
         $flashMessage = $request->session()->get('message.success');
 
-        $series = Serie::all();
+        $series = Serie::query()->paginate(5);
 
         return view('series.index', [
             'series'         => $series,
@@ -41,7 +40,7 @@ class SeriesController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): string
     {
         return view('series.create');
     }
@@ -72,7 +71,7 @@ class SeriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Serie $series)
+    public function show(Serie $series): void
     {
         dd($series);
     }
@@ -107,7 +106,7 @@ class SeriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Serie $series, SeriesRepository $repository)
+    public function destroy(Request $request, Serie $series, SeriesRepository $repository): string
     {
         $destroyedSerie = $repository->destroy($series);
 
@@ -128,7 +127,7 @@ class SeriesController extends Controller
      * debug controller
      */
 
-     public function debug(Serie $series)
+     public function debug(Serie $series): void
      {
         dd($series);
      }

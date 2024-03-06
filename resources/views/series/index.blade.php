@@ -29,7 +29,7 @@
 
                     <a class="mg-3"  href="{{ route('seasons.index', $serie->id) }}">Temporadas</a>
 
-                    <form class="m-3" action="{{route('series.destroy', $serie->id)}}" method="POST">
+                    <form class="m-3" action="{{ route('series.destroy', $serie->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <input type="submit" value="X" class="btn btn-danger btn-sm w-4 h-4">
@@ -41,4 +41,33 @@
             </li>
         @endforeach
     </ul>
+        <!-------------Paginator------------------>
+    <div class="pages-list mt-5 d-flex gap-4 flex-md-column justify-content-center align-items-center">
+        <div class="pages-navigate-btns-area d-flex flex-md-row gap-4 justify-content-center">
+            @if ($series->previousPageUrl())
+                <a href="{{ $series->previousPageUrl() }}" class="previous-page text-decoration-none text-light btn-lg bg-primary p-2 rounded">
+                    <span>Anterior</span>
+                </a>
+            @else
+                <a class="previous-page btn-lg text-light text-decoration-none bg-primary bg-opacity-50 p-2 rounded">
+                    <span>Anterior</span>
+                </a>
+            @endif
+
+            @if ($series->nextPageUrl())
+                <a href="{{ $series->nextPageUrl() }}" class="next-page text-decoration-none text-light btn-lg bg-primary p-2 rounded">
+                    <span>Próximo</span>
+                </a>
+            @else
+                <a class="next-page bg-opacity-50 text-decoration-none text-light btn-lg bg-primary p-2 rounded">
+                    <span>Próximo</span>
+                </a>
+            @endif
+        </div>
+
+        <div class="pages-info d-flex justify-content-center">
+            <span><strong>{{ $series->currentPage() }}</strong> / {{ $series->lastPage() }}</span>
+        </div>
+    </div>
+
 </x-layout>
